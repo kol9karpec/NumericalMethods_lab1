@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <iomanip>
+#include "TPolinom.h"
 
 using namespace std;
 
@@ -18,10 +19,22 @@ double polinom(double x) {
 int main(unsigned int argc, const char * argv[]) {
 	double a, b;
 	cin >> a >> b;
+
+	double coefs[] = { -12,0,7,0,-3,2 };
+	TPolinom my(5, coefs);
+	
+
 	for (double i = a; i <= b; i+=0.1) {
 		cout << setprecision(4);
-		cout << i << "\t" << (polinom(i) >= 0 ? "+" : "-") << endl;
+		cout << i << "\t" << (my.res(i) >= 0 ? "+" : "-") << endl;
 	}
+
+	cout << my.print() << endl;
+	cout << my.derivative(1).print() << endl;
+
+
+
+
 
 	return 0;
 }
