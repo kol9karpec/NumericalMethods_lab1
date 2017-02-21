@@ -82,7 +82,7 @@ TPolinom TPolinom::divide(TPolinom a, TPolinom b, TPolinom & result)
 	return TPolinom();
 }
 
-double TPolinom::bisection(double a, double b, double e, int & steps)
+double TPolinom::bisection(double a, double b, double e, int & steps, ofstream& out)
 {
 	steps = 0;
 	if (this->res(a) == 0) return a;
@@ -92,42 +92,55 @@ double TPolinom::bisection(double a, double b, double e, int & steps)
 		double c;
 		while (abs(b - a) > e)
 		{
-			c = a + ((a + b) / 2);
+			c = a + ((b-a) / 2);
 			if ((this->res(a))*(this->res(c)) < 0) b = c;
 			else a = c;
 			steps++;
+			out << "Iteration " << steps << ":\t";
+			out << setprecision(-(int)(log10(e/10)));
+			out << "x: [" << a << " ; " << b << "]\t";
+			out << "f(x): [" << this->res(a) << " ; " << this->res(b) << "]" << endl;
 		}
 		return c;
 	}
 }
 
-double TPolinom::chords(double a, double b, double e, int & steps)
+double TPolinom::chords(double a, double b, double e, int & steps, ofstream& out)
 {
 	steps = 0;
 	if (this->res(a) == 0) return a;
 	else if (this->res(b) == 0) return b;
 	else
 	{
-		double c;
-		while (abs(b - a) > e)
-		{
-			c = (a*(this->res(b))-b*(this->res(a)))
-				/ (this->res(b) - this->res(a));
-			if ((this->res(a))*(this->res(c)) < 0) b = c;
-			else a = c;
+		
+		while ((abs(b - a) > e ))
+		{				
+			double x1 = a - (b - a)*(this->res(a)) / (this->res(b) - this->res(a));
+			if (this->res(x1)*this->res(a) < 0) a = x1;
+			else b = x1;
 			steps++;
+			out << "Iteration " << steps << ":\t";
+			out << setprecision(-(int)(log10(e/10)));
+			out << "x: [" << a << " ; " << b << "]\t";
+			out << "f(x): [" << this->res(a) << " ; " << this->res(b) << "]" << endl;
 		}
-		return c;
+		return a;
 	}
 }
 
-double TPolinom::newtons(double a, double e, int & steps)
+double TPolinom::newtons(double a, double e, int & steps, ofstream& out)
 {
+	steps = 0;
 	double x1 = a - this->res(a) / this->derivative(1).res(a);
 	double x0 = a;
 	while (abs(x0 - x1) > e) {
 		x0 = x1;
 		x1 = x1 - this->res(x1) / this->derivative(1).res(x1);
+		steps++;
+		out << "Iteration " << steps << ":\t";
+		out << setprecision(-(int)(log10(e/10)));
+		out << "x: "<< x1<<"\t";
+		out << "f(x): " << this->res(x1) << endl;
 	}
 	return x1;
 }
