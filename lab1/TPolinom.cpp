@@ -90,7 +90,7 @@ double TPolinom::bisection(double a, double b, double e, int & steps, ofstream& 
 	else
 	{	
 		double c;
-		while (abs(b - a) > e)
+		while ((abs(b - a) > e) | (this->res(b) > e))
 		{
 			c = a + ((b-a) / 2);
 			if ((this->res(a))*(this->res(c)) < 0) b = c;
@@ -113,7 +113,7 @@ double TPolinom::chords(double a, double b, double e, int & steps, ofstream& out
 	else
 	{
 		
-		while ((abs(b - a) > e ))
+		while ((abs(b - a) > e )|(this->res(b) > e))
 		{				
 			double x1 = a - (b - a)*(this->res(a)) / (this->res(b) - this->res(a));
 			if (this->res(x1)*this->res(a) < 0) a = x1;
@@ -133,7 +133,7 @@ double TPolinom::newtons(double a, double e, int & steps, ofstream& out)
 	steps = 0;
 	double x1 = a - this->res(a) / this->derivative(1).res(a);
 	double x0 = a;
-	while (abs(x0 - x1) > e) {
+	while ((abs(x0 - x1) > e)|(this->res(x0) > e)) {
 		x0 = x1;
 		x1 = x1 - this->res(x1) / this->derivative(1).res(x1);
 		steps++;

@@ -6,25 +6,18 @@
 
 using namespace std;
 
-double polinom(double x) {
-	int result = 0;
-	result += 2 * pow(x, 5);
-	result += (-3) * pow(x, 4);
-	result += 0 * pow(x, 3);
-	result += 7 * pow(x, 2);
-	result += 0 * pow(x, 1);
-	result += (-12);
-	return result;
-}
-
 int main(unsigned int argc, const char * argv[]) {
-	char * filename = new char[10];
+	char * inFile = new char[20];
+	char * outFile = new char[20];
 
-	if (argc > 1) strcpy(filename,argv[1]);
-	else strcpy(filename, "input.txt");
+	if (argc > 1) strcpy(inFile,argv[1]);
+	else strcpy(inFile, "input.txt");
 
-	ifstream in(filename);
-	ofstream out("out.txt");
+	if (argc > 2) strcpy(outFile, argv[2]);
+	else strcpy(outFile, "output.txt");
+
+	ifstream in(inFile);
+	ofstream out(outFile);
 
 	int order;
 	in >> order;
@@ -129,5 +122,9 @@ int main(unsigned int argc, const char * argv[]) {
 		cout << (my4.res(i) >= 0 ? "+" : "-") << "    ";
 	}
 	cout << endl;*/
+
+	in.close();
+	out.close();
+
 	return 0;
 }

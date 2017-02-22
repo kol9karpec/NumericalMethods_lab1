@@ -34,10 +34,6 @@ public:
 	double chords(double a, double b, double e, int& steps, ofstream& out);
 	double newtons(double a, double e, int& steps, ofstream& out);
 
-
-	
-
-
 	~TPolinom();
 };
 
